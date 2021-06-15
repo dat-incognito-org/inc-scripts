@@ -1,0 +1,62 @@
+{
+  "name": "scripts",
+  "description": "Incognito Chain Dev Scripts",
+  "version": "1.0.0",
+  "author": "darius",
+  "bin": {
+    "incognitochain-scripts": "./bin/run"
+  },
+  "bugs": "https://github.com/incognitochain/incognito-chain-web-js/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "fs-extra": "^10.0.0",
+    "incognito": "file:///home/darius/go/src/github.com/incognitochain/incognito-chain-web-js",
+    "oclif": "^1.18.0",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1",
+    "@types/chai": "^4",
+    "@types/mocha": "^5",
+    "@types/node": "^10",
+    "chai": "^4",
+    "globby": "^10",
+    "mocha": "^5",
+    "nyc": "^14",
+    "ts-node": "^8",
+    "typescript": "^3.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/incognitochain/incognito-chain-web-js",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "incognitochain-scripts",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "incognitochain/incognito-chain-web-js",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "rm -rf lib && oclif-dev manifest && oclif-dev readme && oclif-dev manifest && oclif-dev readme",
+    "test": "nyc mocha --forbid-only \"test/**/*.test.js\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
