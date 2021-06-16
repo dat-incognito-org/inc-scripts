@@ -12,7 +12,7 @@ class BalanceCommand extends Command {
 
     for (let i = 0; i < privateKeys.length; i++) {
       let accountFunder = await this.inc.NewTransactor(privateKeys[i]).catch(this.err);
-      if (flags.reset) await accountFunder.submitKeyAndSync([tokenID]).catch(this.err); else accountFunder.isSubmitOtaKey = true;
+      await this.submitKey(accountFunder, [tokenID], flags.reset).catch(this.err);
       let response = await accountFunder.getBalance(tokenID).catch(this.err);
       console.log(`Key ${privateKeys[i]} => Balance : ${response.toString()}`);
     }
@@ -20,7 +20,6 @@ class BalanceCommand extends Command {
 
   static flags = {
     ...BaseFlags,
-    reset: flags.boolean({ char: 'r', description: 'activate to re-sync UTXOs (default: false)', default: false }),
     file: flags.string({ char: 'f', description: 'File name for data' }),
     token: flags.string({ char: 't', description: 'Token ID (default: <PRVID>)' }),
   }

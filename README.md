@@ -15,7 +15,7 @@ Incognito Chain Dev Scripts
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g scripts
+$ npm install -g .
 $ incognitochain-scripts COMMAND
 running command...
 $ incognitochain-scripts (-v|--version|version)

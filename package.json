@@ -11,6 +11,7 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
+    "bn.js": "4.12.0",
     "fs-extra": "^10.0.0",
     "incognito": "file:///home/darius/go/src/github.com/incognitochain/incognito-chain-web-js",
     "oclif": "^1.18.0",

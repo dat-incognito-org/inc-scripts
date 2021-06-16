@@ -22,10 +22,25 @@ let readCsv = (filename) => {
     return result;
 }
 
+let submitKey = async (account, tokenIDs, reset = false) => {
+  const otaKey = account.key.base58CheckSerialize(OTAKeyType);
+  let needSync = false;
+  await account.rpc.submitKey(otaKey)
+  // error usually indicates the key being submitted before. If so, only sync when "reset" flag is on
+  .catch(_ => needSync = reset);
+  if (needSync) {
+    console.log("Start syncing UTXOs")
+    await Promise.all(tokenIDs.map(t => account.fetchOutputCoins(t)))
+  } else {
+    console.log("UTXO syncing is skipped");
+  }
+  account.isSubmitOtaKey = true;
+}
+
 let BaseFn = {
   async initIncognitoEnv(flags) {
     const nodeEndpoint = flags.endpoint || 'http://localhost:8334';
-    this.readCsv = readCsv;
+    Object.assign(this, { readCsv, submitKey })
     this.Inc = Inc;
     this.inc = new SimpleWallet();
     this.inc.setProvider(nodeEndpoint);
@@ -40,5 +55,7 @@ let BaseFn = {
 }
 let BaseFlags = {
   endpoint: flags.string({ char: 'e', description: 'node ip:port to connect to' }),
+  reset: flags.boolean({ char: 'r', description: 'activate to re-sync UTXOs for this token (default: false)', default: false }),
+  fee: flags.string({ description: 'user-specified fee (must be number)', parse: fee => Number(fee), default: 0 }),
 }
 module.exports = { BaseFn, BaseFlags };
