@@ -13,7 +13,7 @@
     "@oclif/plugin-help": "^3",
     "bn.js": "4.12.0",
     "fs-extra": "^10.0.0",
-    "incognito": "file:///home/darius/go/src/github.com/incognitochain/incognito-chain-web-js",
+    "incognito": "github:incognitochain/incognito-chain-web-js#feature/scripts-privacy-v2",
     "oclif": "^1.18.0",
     "tslib": "^1"
   },
