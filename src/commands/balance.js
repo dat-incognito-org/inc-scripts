@@ -7,7 +7,7 @@ class BalanceCommand extends Command {
     const { flags } = this.parse(BalanceCommand);
     await this.initIncognitoEnv(flags).catch(this.err);
     let tokenID = flags.token || this.Inc.constants.PRVIDSTR;
-    const data = await this.readCsv(flags.file || 'getBalanceMultiUsers.csv');
+    const data = await this.readCsv(flags.file || 'balance.csv');
     const privateKeys = data.map(item => item.PrivateKey);
 
     for (let i = 0; i < privateKeys.length; i++) {

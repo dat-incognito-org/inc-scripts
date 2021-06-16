@@ -23,7 +23,7 @@ let readCsv = (filename) => {
 }
 
 let submitKey = async (account, tokenIDs, reset = false) => {
-  const otaKey = account.key.base58CheckSerialize(OTAKeyType);
+  const otaKey = account.key.base58CheckSerialize(3);
   let needSync = false;
   await account.rpc.submitKey(otaKey)
   // error usually indicates the key being submitted before. If so, only sync when "reset" flag is on
@@ -32,7 +32,7 @@ let submitKey = async (account, tokenIDs, reset = false) => {
     console.log("Start syncing UTXOs")
     await Promise.all(tokenIDs.map(t => account.fetchOutputCoins(t)))
   } else {
-    console.log("UTXO syncing is skipped");
+    // console.log("UTXO syncing is skipped");
   }
   account.isSubmitOtaKey = true;
 }

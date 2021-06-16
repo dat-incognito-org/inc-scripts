@@ -12,8 +12,9 @@ class GatherCommand extends Command {
     const privateKeys = data.map(item => item.FromAddress);
     // get only one receiver address from the sheet
     const to = data.map(item => item.ToAddress)
-      .filter(item => item.length > 10)[0];
-    const fee = flags.fee || 100
+      .filter(item => item && item.length > 10)[0];
+    const fee = flags.fee || 100;
+    console.log(to)
 
     privateKeys.forEach(async privateKey => {
       const sender = await this.inc.NewTransactor(privateKey).catch(this.err);

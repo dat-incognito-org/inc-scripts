@@ -6,11 +6,11 @@ class ContributeCommand extends Command {
   async run() {
     const { flags } = this.parse(ContributeCommand);
     await this.initIncognitoEnv(flags).catch(this.err);
-    let tokenID = flags.token || this.Inc.constants.PRVIDSTR;
+    let tokenID = flags.token || null;
     let sender = await this.inc.NewTransactor(flags.privateKey).catch(this.err);
     await this.submitKey(sender, [tokenID], flags.reset).catch(this.err);
 
-    let tx = await sender.createAndSendTxWithContribution({
+    let tx = await sender.contribute({
       transfer: { fee: flags.fee || 100, tokenID },
       extra: { pairID: flags.pairID, contributedAmount: flags.amount }
     }).catch(this.err);

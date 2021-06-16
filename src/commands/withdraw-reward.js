@@ -16,7 +16,8 @@ class WithdrawRewardCommand extends Command {
     privateKeys.forEach(async privateKey => {
       const sender = await this.inc.NewTransactor(privateKey).catch(this.err);
       await this.submitKey(sender, [tokenID], flags.reset).catch(this.err);
-      let reward = await sender.getRewardAmount(sender.key.base58CheckSerialize(this.Inc.constants.PaymentAddressType), false, tokenID).catch(this.err);
+      const tokenIDForRequest = flags.token || "";
+      let reward = await sender.getRewardAmount(sender.key.base58CheckSerialize(this.Inc.constants.PaymentAddressType), false, tokenIDForRequest).catch(this.err);
       reward = new bn(reward);
 
       if (reward.gtn(0)) {
