@@ -7,7 +7,7 @@ class SendCommand extends Command {
     const { flags } = this.parse(SendCommand);
     await this.initIncognitoEnv(flags).catch(this.err);
     let tokenID = flags.token || this.Inc.constants.PRVIDSTR;
-    let paymentInfoList = this.readCsv(flags.file || 'sendPRVPayload.csv');
+    let paymentInfoList = this.readCsv(flags.file || 'send.csv');
     let sender = await this.inc.NewTransactor(flags.privateKey).catch(this.err);
     await this.submitKey(sender, [tokenID], flags.reset).catch(this.err);
 
@@ -18,13 +18,13 @@ class SendCommand extends Command {
       if (tokenID == this.Inc.constants.PRVIDSTR) {
         tx = await sender.prv({ transfer: { fee: flags.fee || 100, prvPayments: paymentInfos }}).catch(this.err);
         await sender.waitTx(tx.Response.txId, 3);
-        console.log('Sent new transaction', tx);
+        this.showTx(tx, flags);
       } else {
         tx = await sender.token({ transfer: { fee: flags.fee || 100, tokenPayments: paymentInfos, tokenID: tokenID }}).catch(this.err);
         await sender.waitTx(tx.Response.txId, 3);
-        console.log('Sent new transaction', tx);
+        this.showTx(tx, flags);
       }
-      console.log('Payments remaining:', paymentInfoList.length);
+      console.log(paymentInfoList.length > 0 ? `${paymentInfoList.length} more payments to make`: 'Done.');
     }
   }
 

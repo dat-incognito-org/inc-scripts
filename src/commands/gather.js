@@ -14,25 +14,35 @@ class GatherCommand extends Command {
     const to = data.map(item => item.ToAddress)
       .filter(item => item && item.length > 10)[0];
     const fee = flags.fee || 100;
-    console.log(to)
 
     privateKeys.forEach(async privateKey => {
       const sender = await this.inc.NewTransactor(privateKey).catch(this.err);
       await this.submitKey(sender, [tokenID], flags.reset).catch(this.err);
-      const balance = await sender.getBalance(tokenID).catch(this.err);
-
-      let tx;
-      if (tokenID == this.Inc.constants.PRVIDSTR) {
-        const amountToSend = new bn(balance).subn(fee);
-        const paymentInfos = [new this.Inc.types.PaymentInfo(to, amountToSend.toString())];
-        tx = await sender.prv({ transfer: { fee, prvPayments: paymentInfos }}).catch(this.err);
-        await sender.waitTx(tx.Response.txId, 3);
-        console.log('Sent new transaction', tx);
-      } else {
-        const paymentInfos = [new this.Inc.types.PaymentInfo(to, balance)];
-        tx = await sender.token({ transfer: { fee, tokenPayments: paymentInfos, tokenID: tokenID }}).catch(this.err);
-        await sender.waitTx(tx.Response.txId, 3);
-        console.log('Sent new transaction', tx);
+      // get unspent coins
+      const coinList = await sender.coin(tokenID).catch(this.err);
+      let amountList = coinList.map(c => c.Value);
+      amountList.sort((a, b) => {
+        a = new bn(a);
+        b = new bn(b);
+        return a.cmp(b);
+      });
+      const maxInputs = 30;
+      for (let batch = amountList.splice(0, maxInputs); batch.length > 0; batch = amountList.splice(0, maxInputs)) {
+        // keep sending a sum equal to my biggest MAX_INPUTS unspent coins
+        let amountToSend = batch.reduce((total, v) => total.add(new bn(v)), new bn(0))
+        let tx;
+        if (tokenID == this.Inc.constants.PRVIDSTR) {
+          amountToSend = amountToSend.subn(fee);
+          const paymentInfos = [new this.Inc.types.PaymentInfo(to, amountToSend.toString())];
+          tx = await sender.prv({ transfer: { fee, prvPayments: paymentInfos } }).catch(this.err);
+          await sender.waitTx(tx.Response.txId, 3);
+          this.showTx(tx, flags);
+        } else {
+          const paymentInfos = [new this.Inc.types.PaymentInfo(to, amountToSend)];
+          tx = await sender.token({ transfer: { fee, tokenPayments: paymentInfos, tokenID: tokenID } }).catch(this.err);
+          await sender.waitTx(tx.Response.txId, 3);
+          this.showTx(tx, flags);
+        }
       }
     })
   }

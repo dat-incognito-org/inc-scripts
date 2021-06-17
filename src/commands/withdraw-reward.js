@@ -23,7 +23,7 @@ class WithdrawRewardCommand extends Command {
       if (reward.gtn(0)) {
         const tx = await sender.withdraw({ transfer: { fee, tokenID }}).catch(this.err);
         await sender.waitTx(tx.Response.txId, 3);
-        console.log('Sent new transaction', tx);
+        this.showTx(tx, flags);
       } else {
         console.log('No available reward for key', privateKey);
       }

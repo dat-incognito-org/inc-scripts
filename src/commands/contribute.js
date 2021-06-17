@@ -15,7 +15,7 @@ class ContributeCommand extends Command {
       extra: { pairID: flags.pairID, contributedAmount: flags.amount }
     }).catch(this.err);
     await sender.waitTx(tx.Response.txId, 3);
-    console.log('Sent new transaction', tx);
+    this.showTx(tx, flags);
   }
 
   static flags = {

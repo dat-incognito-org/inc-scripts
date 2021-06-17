@@ -19,7 +19,7 @@ class StakeCommand extends Command {
         extra: { candidatePaymentAddress: myAddress, candidateMiningSeedKey: this.Inc.utils.base58CheckEncode(sender.key.getMiningSeedKey(), this.Inc.constants.ENCODE_VERSION), rewardReceiverPaymentAddress: myAddress, autoReStaking: flags.restake, stakingType: flags.stakeBeacon ? 1 : 0 }
       }).catch(this.err);
       await sender.waitTx(tx.Response.txId, 3);
-      console.log('Sent new transaction', tx);
+      this.showTx(tx, flags);
     })
   }
 
