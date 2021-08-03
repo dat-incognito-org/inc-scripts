@@ -81,7 +81,7 @@ let showTx = (txResult, flags = {}) => {
 
 let BaseFn = {
   async initIncognitoEnv(flags) {
-    const nodeEndpoint = flags.endpoint || 'http://localhost:8334';
+    const nodeEndpoint = flags.endpoint || 'https://mainnet.incognito.org/fullnode';
     Object.assign(this, { readCsv, submitKey, truncateStr, showTx })
     this.Inc = Inc;
     this.inc = new SimpleWallet();

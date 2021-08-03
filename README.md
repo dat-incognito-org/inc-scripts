@@ -19,7 +19,7 @@ $ npm install -g scripts
 $ incognitochain-scripts COMMAND
 running command...
 $ incognitochain-scripts (-v|--version|version)
-scripts/1.0.0 linux-x64 node-v16.3.0
+scripts/1.0.0 linux-x64 node-v16.4.0
 $ incognitochain-scripts --help [COMMAND]
 USAGE
   $ incognitochain-scripts COMMAND
@@ -49,6 +49,7 @@ OPTIONS
   -f, --file=file          File name for data
   -r, --reset              activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
+  --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
 
 DESCRIPTION
@@ -73,6 +74,7 @@ OPTIONS
   -p, --privateKey=privateKey  Private Key to sign TX (default: PRIVATE_KEY environment variable)
   -r, --reset                  activate to re-sync UTXOs for this token (default: false)
   -t, --token=token            Token ID (default: <PRVID>)
+  --csv                        output is csv format
   --fee=fee                    user-specified fee (must be number)
 
 DESCRIPTION
@@ -95,6 +97,7 @@ OPTIONS
   -f, --file=file          File name for data
   -r, --reset              activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
+  --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
 
 DESCRIPTION
@@ -135,6 +138,7 @@ OPTIONS
   -p, --privateKey=privateKey  Private Key to sign TX (default: PRIVATE_KEY environment variable)
   -r, --reset                  activate to re-sync UTXOs for this token (default: false)
   -t, --token=token            Token ID (default: <PRVID>)
+  --csv                        output is csv format
   --fee=fee                    user-specified fee (must be number)
 
 DESCRIPTION
@@ -156,6 +160,7 @@ OPTIONS
   -e, --endpoint=endpoint  node ip:port to connect to
   -f, --file=file          File name for data
   -r, --reset              activate to re-sync UTXOs for this token (default: false)
+  --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
   --[no-]restake           Auto-restaking toggle (default: true)
   --[no-]stakeBeacon       WIP - activate when staking in beacon chain, as opposed to shard chain (default: false)
@@ -180,6 +185,7 @@ OPTIONS
   -f, --file=file          File name for data
   -r, --reset              activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
+  --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
 
 DESCRIPTION
