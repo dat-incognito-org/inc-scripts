@@ -1,5 +1,5 @@
 const { Command, flags } = require('@oclif/command')
-const Inc = require('../external/inc');
+const Inc = require('incognito');
 const { SimpleWallet, init } = Inc;
 const fs = require('fs-extra');
 const { cli } = require('cli-ux');
