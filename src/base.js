@@ -6,7 +6,7 @@ const { cli } = require('cli-ux');
 
 let readCsv = (filename) => {
   let csv = fs.readFileSync(filename).toString();
-  var lines = csv.split("\n");
+  var lines = csv.split("\n").map(line => line.trim());
 
   var result = [];
   var headers = lines[0].split(",");
