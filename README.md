@@ -19,7 +19,7 @@ $ npm install -g scripts
 $ incognitochain-scripts COMMAND
 running command...
 $ incognitochain-scripts (-v|--version|version)
-scripts/1.0.0 linux-x64 node-v16.4.0
+scripts/1.0.0 darwin-x64 node-v12.20.1
 $ incognitochain-scripts --help [COMMAND]
 USAGE
   $ incognitochain-scripts COMMAND
@@ -47,7 +47,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  node ip:port to connect to
   -f, --file=file          File name for data
-  -r, --reset              activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset        activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
   --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
@@ -72,7 +72,7 @@ OPTIONS
   -e, --endpoint=endpoint      node ip:port to connect to
   -i, --pairID=pairID          Pair ID to contribute
   -p, --privateKey=privateKey  Private Key to sign TX (default: PRIVATE_KEY environment variable)
-  -r, --reset                  activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset            activate to re-sync UTXOs for this token (default: false)
   -t, --token=token            Token ID (default: <PRVID>)
   --csv                        output is csv format
   --fee=fee                    user-specified fee (must be number)
@@ -95,7 +95,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  node ip:port to connect to
   -f, --file=file          File name for data
-  -r, --reset              activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset        activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
   --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
@@ -136,7 +136,7 @@ OPTIONS
   -e, --endpoint=endpoint      node ip:port to connect to
   -f, --file=file              File name for data
   -p, --privateKey=privateKey  Private Key to sign TX (default: PRIVATE_KEY environment variable)
-  -r, --reset                  activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset            activate to re-sync UTXOs for this token (default: false)
   -t, --token=token            Token ID (default: <PRVID>)
   --csv                        output is csv format
   --fee=fee                    user-specified fee (must be number)
@@ -159,7 +159,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  node ip:port to connect to
   -f, --file=file          File name for data
-  -r, --reset              activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset        activate to re-sync UTXOs for this token (default: false)
   --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)
   --[no-]restake           Auto-restaking toggle (default: true)
@@ -183,7 +183,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  node ip:port to connect to
   -f, --file=file          File name for data
-  -r, --reset              activate to re-sync UTXOs for this token (default: false)
+  -r, --reset=reset        activate to re-sync UTXOs for this token (default: false)
   -t, --token=token        Token ID (default: <PRVID>)
   --csv                    output is csv format
   --fee=fee                user-specified fee (must be number)

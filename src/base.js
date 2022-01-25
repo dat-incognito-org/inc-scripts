@@ -1,8 +1,9 @@
 const { Command, flags } = require('@oclif/command')
 const Inc = require('incognito');
-const { SimpleWallet, init } = Inc;
 const fs = require('fs-extra');
 const { cli } = require('cli-ux');
+
+const DEFAULT_ENDPOINT = 'https://beta-fullnode.incognito.org/fullnode';
 
 let readCsv = (filename) => {
   let csv = fs.readFileSync(filename).toString();
@@ -23,19 +24,10 @@ let readCsv = (filename) => {
   return result;
 }
 
-let submitKey = async (account, tokenIDs, reset = false) => {
-  const otaKey = account.key.base58CheckSerialize(3);
-  let needSync = false;
-  await account.rpc.submitKey(otaKey)
+let submitKey = async (account, tokenIDs, auth = null) => {
+  await account.submitKey(auth)
     // error usually indicates the key being submitted before. If so, only sync when "reset" flag is on
-    .catch(_ => needSync = reset);
-  if (needSync) {
-    console.log("Start syncing UTXOs")
-    await Promise.all(tokenIDs.map(t => account.fetchOutputCoins(t)))
-  } else {
-    // console.log("UTXO syncing is skipped");
-  }
-  account.isSubmitOtaKey = true;
+    .catch(_ => console.error);
 }
 
 let truncateStr = (key, flags = {}) => flags.csv ? key : key.slice(0, 10) + '..' + key.slice(key.length - 10);
@@ -81,12 +73,14 @@ let showTx = (txResult, flags = {}) => {
 
 let BaseFn = {
   async initIncognitoEnv(flags) {
-    const nodeEndpoint = flags.endpoint || 'https://mainnet.incognito.org/fullnode';
+    const nodeEndpoint = flags.endpoint || DEFAULT_ENDPOINT;
+    let shards = nodeEndpoint.includes('local') ? 1 : 8;
     Object.assign(this, { readCsv, submitKey, truncateStr, showTx })
     this.Inc = Inc;
-    this.inc = new SimpleWallet();
+    await this.Inc.setShardNumber(shards);
+    this.inc = new this.Inc.SimpleWallet();
     this.inc.setProvider(nodeEndpoint);
-    await init();
+    await this.Inc.init();
   },
 
   // basic error handler
@@ -97,7 +91,7 @@ let BaseFn = {
 }
 let BaseFlags = {
   endpoint: flags.string({ char: 'e', description: 'node ip:port to connect to' }),
-  reset: flags.boolean({ char: 'r', description: 'activate to re-sync UTXOs for this token (default: false)', default: false }),
+  reset: flags.string({ char: 'r', description: 'activate to re-sync UTXOs for this token (default: false)', default: null }),
   fee: flags.string({ description: 'user-specified fee (must be number)', parse: fee => Number(fee), default: 0 }),
   extended: flags.boolean({ char: 'x', description: 'show extra columns (for table)', hidden: true }),
   csv: flags.boolean({description: 'output is csv format'}),
