@@ -77,10 +77,10 @@ let BaseFn = {
     let shards = nodeEndpoint.includes('local') ? 1 : 8;
     Object.assign(this, { readCsv, submitKey, truncateStr, showTx })
     this.Inc = Inc;
-    await this.Inc.setShardNumber(shards);
-    this.inc = new this.Inc.SimpleWallet();
-    this.inc.setProvider(nodeEndpoint);
     await this.Inc.init();
+    await this.Inc.wasm.setShardCount('', shards);
+    this.inc = new this.Inc.SimpleWallet();
+    this.inc.setProvider(nodeEndpoint);    
   },
 
   // basic error handler
